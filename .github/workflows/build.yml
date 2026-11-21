@@ -56,8 +56,46 @@ jobs:
       - name: Testes
         run: flutter test
 
+      - name: Versões resolvidas dos plugins
+        run: |
+          python3 - <<'PY'
+          import re
+          t = open('pubspec.lock', encoding='utf-8').read()
+          names = ['dio','mobx','flutter_mobx','hive','hive_flutter','path_provider','path_provider_android','map_launcher','geocoding','geocoding_android','geocoding_ios']
+          out = []
+          for n in names:
+              m = re.search(r'\n  ' + n + r':\n(?:    .*\n)*?    version: "([^"]+)"', t)
+              out.append(f'{n}={m.group(1) if m else "?"}')
+          print('::notice title=Versões::' + ' '.join(out))
+          PY
+
       - name: Build do APK
-        run: flutter build apk --release
+        run: |
+          set -o pipefail
+          flutter build apk --release 2>&1 | tee build.log
+
+      - name: Mostrar o erro do build
+        if: failure()
+        run: |
+          python3 - <<'PY'
+          import os
+          if not os.path.exists('build.log'):
+              raise SystemExit(0)
+          t = open('build.log', encoding='utf-8', errors='ignore').read()
+          parts = []
+          start = 0
+          while True:
+              i = t.find('What went wrong', start)
+              if i < 0:
+                  break
+              parts.append(t[max(0, i - 300): i + 2500])
+              start = i + 1
+          if not parts:
+              parts = [t[-5000:]]
+          for p in parts[:5]:
+              p = p.replace('%', '%25').replace('\r', '').replace('\n', '%0A')
+              print('::error title=Build do APK::' + p)
+          PY
 
       - name: Guardar o APK
         uses: actions/upload-artifact@v4
