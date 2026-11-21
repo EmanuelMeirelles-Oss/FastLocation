@@ -1,0 +1,12 @@
+/// Constantes de espaçamento, raio e tamanho usadas no aplicativo.
+abstract class AppMetrics {
+  static const double spaceXs = 4;
+  static const double spaceSm = 8;
+  static const double spaceMd = 16;
+  static const double spaceLg = 24;
+  static const double spaceXl = 32;
+
+  static const double radius = 12;
+  static const double buttonHeight = 52;
+  static const double iconLg = 64;
+}
