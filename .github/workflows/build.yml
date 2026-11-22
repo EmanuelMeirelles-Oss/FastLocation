@@ -31,6 +31,9 @@ jobs:
       - name: Gerar pastas nativas (somente Android e iOS)
         run: flutter create --platforms=android,ios --org com.fastdelivery --project-name fast_location .
 
+      - name: Ajustar Gradle para plugins antigos (namespace)
+        run: python3 tool/patch_android.py
+
       - name: Permitir abrir apps de mapas no iOS (Info.plist)
         run: |
           python3 - <<'PY'
