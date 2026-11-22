@@ -24,12 +24,12 @@ subprojects {{
             androidExt.javaClass.getMethod("setNamespace", String::class.java)
                 .invoke(androidExt, pkg ?: project.group.toString())
         }}
-        // compileSdk antigo (< 31, ex.: 29) impede compilar Java 9+; sobe para {COMPILE_SDK}.
+        // compileSdk antigo (ex.: 29 ou 33) quebra com dependências atuais; sobe para {COMPILE_SDK}.
         val comps = extensions.findByName("androidComponents") ?: return@withId
         comps.javaClass.getMethod("finalizeDsl", Action::class.java).invoke(comps, Action<Any> {{
             val ext = this
             val current = ext.javaClass.getMethod("getCompileSdk").invoke(ext) as Int?
-            if (current == null || current < 31) {{
+            if (current == null || current < {COMPILE_SDK}) {{
                 ext.javaClass.getMethod("setCompileSdk", Int::class.javaObjectType).invoke(ext, {COMPILE_SDK})
             }}
         }})
@@ -52,7 +52,7 @@ subprojects {{
             android.namespace = pkg ?: project.group.toString()
         }}
         androidComponents.finalizeDsl {{ ext ->
-            if (ext.compileSdk == null || ext.compileSdk < 31) ext.compileSdk = {COMPILE_SDK}
+            if (ext.compileSdk == null || ext.compileSdk < {COMPILE_SDK}) ext.compileSdk = {COMPILE_SDK}
         }}
     }}
 }}
