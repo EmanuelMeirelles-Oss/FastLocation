@@ -12,11 +12,10 @@ mixin _$HomeController on _HomeControllerBase, Store {
   Computed<bool>? _$hasLastAddressComputed;
 
   @override
-  bool get hasLastAddress => (_$hasLastAddressComputed ??= Computed<bool>(
-          () => super.hasLastAddress,
-          name: '_HomeControllerBase.hasLastAddress'))
-      .value;
-
+  bool get hasLastAddress =>
+      (_$hasLastAddressComputed ??= Computed<bool>(() => super.hasLastAddress,
+              name: '_HomeControllerBase.hasLastAddress'))
+          .value;
   Computed<bool>? _$hasSearchResultsComputed;
 
   @override
@@ -135,8 +134,8 @@ mixin _$HomeController on _HomeControllerBase, Store {
   @override
   Future<void> searchByAddress(
       {required String uf, required String city, required String street}) {
-    return _$searchByAddressAsyncAction.run(
-        () => super.searchByAddress(uf: uf, city: city, street: street));
+    return _$searchByAddressAsyncAction
+        .run(() => super.searchByAddress(uf: uf, city: city, street: street));
   }
 
   late final _$selectResultAsyncAction =
