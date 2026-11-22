@@ -18,7 +18,7 @@ Desafio 2 — Desenvolvimento de Sistemas Móveis (ADS · UniSENAI) · Emanuel Y
 
 ## Telas
 
-Prints tirados automaticamente pelo teste de ponta a ponta (`integration_test/app_test.dart`) num emulador Android, com consultas reais à API ViaCEP. O vídeo completo está na release [**demo**](https://github.com/EmanuelMeirelles-Oss/FastLocation/releases/tag/demo).
+Prints tirados automaticamente pelo teste de ponta a ponta (`integration_test/app_test.dart`) num emulador Android, com consultas reais à API ViaCEP. Vídeo de 1 minuto com o fluxo completo: [docs/FastLocation_demo.mp4](docs/FastLocation_demo.mp4) (a gravação original, sem cortes, fica na release [demo](https://github.com/EmanuelMeirelles-Oss/FastLocation/releases/tag/demo)). No fim, o "Traçar rota" abre o Google Maps, que no emulador recém-criado para na tela de login do primeiro uso.
 
 | Abertura | Home | Consulta por CEP | Resultado |
 | --- | --- | --- | --- |
