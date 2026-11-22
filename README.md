@@ -25,53 +25,43 @@ Desafio 2 — Desenvolvimento de Sistemas Móveis (ADS · UniSENAI) · Emanuel Y
 | hive, hive_flutter, hive_generator | Histórico local de consultas |
 | path, path_provider | Pasta onde o Hive grava os dados |
 | geocoding | Converte o endereço em coordenadas |
-| map_launcher | Abre o app de mapas com a rota |
+| map_launcher | Abre o app de mapas com a rota (^3.5.0 — ver nota abaixo) |
 | build_runner | Geração de código (MobX e Hive) |
+
+### Nota sobre a versão do map_launcher
+
+O enunciado pede `map_launcher: ^2.2.1+1`. Toda a linha 2.x usa a *v1 embedding* do Android, que foi removida do Flutter atual, e por isso não compila mais (erro em `:map_launcher:compileReleaseKotlin`). A remoção só aconteceu na própria biblioteca na versão 3.4.0, então o projeto usa `^3.5.0`, que mantém exatamente a mesma API usada no app (`MapLauncher.installedMaps`, `showDirections`, `Coords`, `MapType`). As demais bibliotecas seguem as versões do enunciado.
 
 ## Como executar
 
-Pré-requisitos: Flutter 3.x instalado (`flutter doctor` sem erros) e um emulador Android/iOS ou celular conectado.
+Pré-requisitos: Flutter 3.x estável instalado (`flutter doctor` sem erros) e um emulador Android ou celular conectado.
 
 ```bash
-git clone <URL-DESTE-REPOSITORIO>
-cd fast_location
+git clone https://github.com/EmanuelMeirelles-Oss/FastLocation.git
+cd FastLocation
 flutter pub get
 flutter run
 ```
 
-Os arquivos gerados (`*.g.dart`) já estão no repositório. Se alterar um controller ou o model, gere de novo:
+As pastas `android/` e `ios/` e os arquivos gerados (`*.g.dart`) já estão no repositório. Se alterar um controller ou o model, gere o código de novo:
 
 ```bash
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-### Primeira vez, a partir do código-fonte sem as pastas nativas
+### APK pronto
 
-Se as pastas `android/` e `ios/` ainda não existirem por completo, rode o script de preparo (gera só Android e iOS, instala as dependências e gera o código):
+Cada push na `main` é compilado e testado pelo GitHub Actions (`.github/workflows/build.yml`). O APK da última versão fica na página **Releases** do repositório, para instalar direto no celular Android.
+
+### Se as pastas nativas forem recriadas
+
+Rodando `flutter create` de novo (ou os scripts `setup.ps1` / `setup.sh`), aplique também o ajuste do Gradle para plugins antigos e a permissão de mapas do iOS:
 
 ```bash
-# Windows (PowerShell)
-.\setup.ps1
-
-# macOS / Linux
-./setup.sh
+python tool/patch_android.py
 ```
 
-O `flutter create` não sobrescreve arquivos existentes, então o `lib/` e o `AndroidManifest.xml` já configurado são preservados.
-
-### iOS: permitir abrir apps de mapas
-
-Adicione ao `ios/Runner/Info.plist`, dentro do `<dict>` principal:
-
-```xml
-<key>LSApplicationQueriesSchemes</key>
-<array>
-  <string>comgooglemaps</string>
-  <string>waze</string>
-</array>
-```
-
-O Apple Maps funciona sem essa configuração.
+No iOS, `ios/Runner/Info.plist` precisa de `LSApplicationQueriesSchemes` com `comgooglemaps` e `waze` para abrir esses apps (o Apple Maps funciona sem isso).
 
 ## Como usar
 
@@ -129,5 +119,5 @@ flutter test
 ## Solução de problemas
 
 - **Erro de versão ao rodar `flutter pub get`:** as versões das bibliotecas seguem as exigidas no enunciado. Se o seu Flutter for muito mais novo e alguma delas não resolver, rode `flutter pub outdated` para ver qual pacote conflita.
-- **"Namespace not specified" no build Android:** algum plugin antigo não declara `namespace` para o Android Gradle Plugin 8. Rode `flutter pub upgrade` (mantém as versões dentro do `^` exigido) e tente de novo.
+- **"Namespace not specified" no build Android:** algum plugin antigo não declara `namespace` para o Android Gradle Plugin 8. Rode `python tool/patch_android.py` e tente de novo.
 - **"Nenhum aplicativo de mapas instalado" no emulador:** use um emulador com Google Play (ele já tem o Google Maps) ou um celular físico.

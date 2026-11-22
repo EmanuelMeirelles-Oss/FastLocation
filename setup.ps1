@@ -6,6 +6,8 @@ $ErrorActionPreference = "Stop"
 Write-Host "1/3 Gerando as pastas nativas (somente Android e iOS)..."
 flutter create --platforms=android,ios --org com.fastdelivery --project-name fast_location .
 
+python tool/patch_android.py
+
 Write-Host "2/3 Instalando dependências..."
 flutter pub get
 

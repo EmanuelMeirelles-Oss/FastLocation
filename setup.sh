@@ -6,6 +6,8 @@ set -e
 echo "1/3 Gerando as pastas nativas (somente Android e iOS)..."
 flutter create --platforms=android,ios --org com.fastdelivery --project-name fast_location .
 
+python3 tool/patch_android.py
+
 echo "2/3 Instalando dependências..."
 flutter pub get
 
