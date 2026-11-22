@@ -5,7 +5,7 @@ void main() {
   group('AddressModel', () {
     final json = {
       'cep': '88015-200',
-      'logradouro': 'Rua Felipe Schmidt',
+      'logradouro': 'Avenida Rio Branco',
       'complemento': '',
       'bairro': 'Centro',
       'localidade': 'Florianópolis',
@@ -17,7 +17,7 @@ void main() {
       final address = AddressModel.fromJson(json);
       expect(address.cepDigits, '88015200');
       expect(address.formattedCep, '88015-200');
-      expect(address.streetLine, 'Rua Felipe Schmidt');
+      expect(address.streetLine, 'Avenida Rio Branco');
       expect(address.cityLine, 'Centro · Florianópolis - SC');
     });
 
@@ -25,7 +25,7 @@ void main() {
       final address = AddressModel.fromJson(json);
       expect(
         address.fullAddress,
-        'Rua Felipe Schmidt, Centro, Florianópolis, SC, Brasil',
+        'Avenida Rio Branco, Centro, Florianópolis, SC, Brasil',
       );
     });
 

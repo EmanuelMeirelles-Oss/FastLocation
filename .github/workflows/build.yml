@@ -206,6 +206,7 @@ jobs:
             echo "Nenhum print novo."
           else
             git commit -m "docs: prints do app rodando no emulador [skip ci]"
+            git stash --include-untracked || true
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push
           fi

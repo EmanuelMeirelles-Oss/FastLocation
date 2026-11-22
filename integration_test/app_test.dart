@@ -78,7 +78,9 @@ void main() {
     await waitFor(tester, find.text('Último endereço consultado'));
     await wait(tester, 2500);
     await screenshot(tester, 'resultado-cep');
-    expect(find.textContaining('Felipe Schmidt'), findsWidgets);
+    // 88015-200 = Avenida Rio Branco, Centro, Florianópolis.
+    expect(find.textContaining('88015-200'), findsWidgets);
+    expect(find.textContaining('Rio Branco'), findsWidgets);
 
     // 3. Busca de CEP por endereço (parcial).
     await openNewSearch(tester);
