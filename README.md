@@ -16,6 +16,18 @@ Desafio 2 — Desenvolvimento de Sistemas Móveis (ADS · UniSENAI) · Emanuel Y
 - **Traçar rota** da localização atual do aparelho até o último endereço consultado (abre o Google Maps ou outro app de mapas instalado).
 - Tela de abertura animada com redirecionamento automático para a Home.
 
+## Telas
+
+Prints tirados automaticamente pelo teste de ponta a ponta (`integration_test/app_test.dart`) num emulador Android, com consultas reais à API ViaCEP. O vídeo completo está na release [**demo**](https://github.com/EmanuelMeirelles-Oss/FastLocation/releases/tag/demo).
+
+| Abertura | Home | Consulta por CEP | Resultado |
+| --- | --- | --- | --- |
+| <img src="docs/screenshots/01-abertura.png" width="180"> | <img src="docs/screenshots/02-home-vazia.png" width="180"> | <img src="docs/screenshots/03-consulta-por-cep.png" width="180"> | <img src="docs/screenshots/04-resultado-cep.png" width="180"> |
+
+| Busca por endereço | Resultados | Endereço escolhido | Não encontrado | Histórico |
+| --- | --- | --- | --- | --- |
+| <img src="docs/screenshots/05-consulta-por-endereco.png" width="150"> | <img src="docs/screenshots/06-resultados-endereco.png" width="150"> | <img src="docs/screenshots/07-endereco-selecionado.png" width="150"> | <img src="docs/screenshots/08-nao-encontrado.png" width="150"> | <img src="docs/screenshots/09-historico.png" width="150"> |
+
 ## Tecnologias
 
 | Pacote | Uso |
@@ -112,9 +124,19 @@ A busca por endereço exige pelo menos 3 letras na cidade e no logradouro (regra
 
 ## Testes
 
+Testes unitários e de widget:
+
 ```bash
 flutter test
 ```
+
+Teste de ponta a ponta (com um emulador ou celular Android conectado). Ele usa o app inteiro e salva os prints em `docs/screenshots`:
+
+```bash
+flutter drive --driver=test_driver/integration_test.dart --target=integration_test/app_test.dart
+```
+
+No GitHub Actions, o job **Teste no emulador** roda esse mesmo teste num emulador Android a cada push, grava a tela e publica o vídeo e os prints.
 
 ## Solução de problemas
 
